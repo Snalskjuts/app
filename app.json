@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "snalskjuts",
+    "slug": "snalskjuts",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "snalskjuts"
+}
