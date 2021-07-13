@@ -1,21 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import 'react-native-gesture-handler'
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native'
+import * as Font from "expo-font"
+import { UserProvider } from './src/context/user';
+
+import { Search, Start } from './src/screens'
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [resourcesLoaded, setResourcesLoaded] = useState(false)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    loadFonts()
+  }, [])
+
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      "Poppins": require("./assets/fonts/Poppins-Regular.ttf"),
+      "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
+      "Poppins-Thin": require("./assets/fonts/Poppins-Thin.ttf"),
+      "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
+    })
+    setResourcesLoaded(true)
+  }
+
+  return (
+      resourcesLoaded ?
+      <UserProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Start">
+            <Stack.Screen 
+              options={{ headerShown: false}}
+              name="Start" 
+              component={ Start } 
+            />
+            <Stack.Screen 
+              options={{ headerShown: false}}
+              name="Search" 
+              component={ Search } 
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserProvider>
+      : null
+  )
+}
