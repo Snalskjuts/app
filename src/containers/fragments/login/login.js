@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { StyleSheet, Dimensions } from "react-native"
 import { PrimaryButton, TertiaryButton } from "../../../components/buttons"
-import { StandardTextField } from "../../../components/textfields"
+import { PasswordTextField, EmailTextField } from "../../../components/textfields"
 import Logo from "../../../components/logo"
 import { AntDesign } from '@expo/vector-icons'
 
@@ -11,14 +11,14 @@ const Login = ({ onLogin, onRegister }) => {
     return (
         <>
             <Logo style={ styles.logo } light/>
-            <StandardTextField 
+            <EmailTextField 
                 light 
                 placeholder="E-post" 
                 style={styles.textInput} 
                 icon={<AntDesign name="user" size={18} color="#A0A3BD" />}
                 onChangeText={setEmail}
             />
-            <StandardTextField 
+            <PasswordTextField 
                 light 
                 placeholder="Lösenord" 
                 style={styles.textInput} 

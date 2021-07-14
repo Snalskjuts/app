@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { StyleSheet, Dimensions } from "react-native"
 import { PrimaryButton, TertiaryButton } from "../../../components/buttons"
-import { StandardTextField } from "../../../components/textfields"
+import { EmailTextField, PasswordTextField, StandardTextField } from "../../../components/textfields"
 import Logo from "../../../components/logo"
 import { AntDesign } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
+
+const MINIMUM_PASSWORD_LENGTH = 6
 
 const RegisterCredentials = ({ onRegister, onCancel }) => {
     const [email, setEmail] = useState("")
@@ -12,16 +14,27 @@ const RegisterCredentials = ({ onRegister, onCancel }) => {
     const [confirmPassword, setConfirmPassword] = useState("")
 
     const validateAndProceed = () => {
-        if (email !== "" && password !== "" && confirmPassword !== "") {
-            return onRegister(email, password)
+        const validateEmailRegex = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i
+        const emailIsValid = validateEmailRegex.test(email.toLowerCase())
+        const passwordLengthIsValid = password.length >= MINIMUM_PASSWORD_LENGTH
+        const passwordsMatch = password === confirmPassword
+        if (!emailIsValid) {
+            alert("Vänligen fyll i en korrekt e-post adress")
+            return
+        } else if (!passwordLengthIsValid) {
+            alert("Vänligen använd ett lösenord som är minst 6 karaktärer långt")
+            return
+        } else if (!passwordsMatch) {
+            alert("Lösenorden är inte samma, vänligen försök igen")
+            return
         }
-        alert("Vänligen fyll i alla fälten")
+        onRegister(email, password)
     }
 
     return (
         <>
             <Logo style={ styles.logo } light/>
-            <StandardTextField
+            <EmailTextField
                 onChangeText={setEmail}
                 value={email}
                 light 
@@ -29,7 +42,7 @@ const RegisterCredentials = ({ onRegister, onCancel }) => {
                 style={styles.textInput} 
                 icon={<MaterialIcons name="alternate-email" size={18} color="#A0A3BD" />} 
             />
-            <StandardTextField 
+            <PasswordTextField 
                 onChangeText={setPassword}
                 value={password}
                 light 
@@ -37,7 +50,7 @@ const RegisterCredentials = ({ onRegister, onCancel }) => {
                 style={styles.textInput} 
                 icon={<AntDesign name="lock1" size={18} color="#A0A3BD" />} 
             />
-            <StandardTextField 
+            <PasswordTextField 
                 onChangeText={setConfirmPassword}
                 value={confirmPassword}
                 light 
