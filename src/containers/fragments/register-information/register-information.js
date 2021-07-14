@@ -5,18 +5,29 @@ import { StandardTextField } from "../../../components/textfields"
 import Logo from "../../../components/logo"
 import { AntDesign } from '@expo/vector-icons'
 
+const MINIMUM_AGE = 18
+
 const RegisterInformation = ({ onNext, onCancel }) => {
-    const earliestBirthYear = new Date().getFullYear() - 18
+    const earliestBirthYear = new Date().getFullYear() - MINIMUM_AGE
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [birthYear, setBirthYear] = useState(earliestBirthYear.toString())
 
     const validateAndProceed = () => {
-        console.log("INFO register-info.js", firstName, lastName, birthYear)
-        if (firstName !== "" && lastName !== "") {
-            return onNext(firstName, lastName, birthYear)
+        if (firstName.trim() === "" || lastName.trim() === "") {
+            alert("Vänligen fyll i ditt namn")
+            return
+        } 
+        const birthYearAsInt = parseInt(birthYear, 10)
+        if (!birthYearAsInt) {
+            alert("Vänligen använd endast siffror för ditt födelseår")
+            return
         }
-        alert("Vänligen fyll i alla fält")
+        if (birthYearAsInt > earliestBirthYear) {
+            alert(`Användare av SnålSkjuts måste vara ${MINIMUM_AGE} år eller äldre`)
+            return
+        }
+        onNext(firstName, lastName, birthYearAsInt)
     }
 
     return (
