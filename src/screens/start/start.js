@@ -1,13 +1,16 @@
 import React, { useState, useContext, useEffect } from "react"
-import { View, StyleSheet, Dimensions } from "react-native"
+import { View, StyleSheet, Dimensions, Text } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import { Login, RegisterInformation, RegisterCredentials } from "../../containers/fragments"
 import Dynamo from "../../containers/dynamo"
 import { authenticateUserCredentials, registerUser } from "../../api/users"
 import UserContext from "../../context/user"
+import ThemeContext from "../../context/theme"
+import Modal from "../../components/modal"
 
 const Start = ({ navigation }) => {
     const { logIn } = useContext(UserContext)
+    const theme = useContext(ThemeContext)
     const [userInformation, setUserInformation] = useState({})
     const [userCredentials, setUserCredentials] = useState({})
     const [shouldRegister, setShouldRegister] = useState(false)
@@ -67,11 +70,14 @@ const Start = ({ navigation }) => {
     return (
         <View style={styles.wrapper}>
             <LinearGradient 
-                colors={[ "#FFBFC2", "#E99497" ]}
+                colors={[ theme.keyGradientTo, theme.key ]}
                 style={styles.background}
                 start={{x: 0, y: 0}}
                 end={{x: 2.5, y: 1}}
             />
+            <Modal title="Hiya!" open>
+                <Text>Hello world</Text>
+            </Modal>
             <Dynamo component={currentView} />
         </View>
     )

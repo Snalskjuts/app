@@ -1,13 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { StyleSheet, Dimensions } from "react-native"
 import { PrimaryButton, TertiaryButton } from "../../../components/buttons"
 import { StandardTextField } from "../../../components/textfields"
 import Logo from "../../../components/logo"
 import { AntDesign } from '@expo/vector-icons'
+import ThemeContext from "../../../context/theme"
 
 const MINIMUM_AGE = 18
 
 const RegisterInformation = ({ onNext, onCancel }) => {
+    const theme = useContext(ThemeContext)
     const earliestBirthYear = new Date().getFullYear() - MINIMUM_AGE
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -37,7 +39,7 @@ const RegisterInformation = ({ onNext, onCancel }) => {
                 light 
                 placeholder="Förnamn" 
                 style={styles.textInput} 
-                icon={<AntDesign name="user" size={18} color="#A0A3BD" />}
+                icon={<AntDesign name="user" size={18} color={theme.icon} />}
                 onChangeText={setFirstName}
                 value={firstName}
             />
@@ -45,7 +47,7 @@ const RegisterInformation = ({ onNext, onCancel }) => {
                 light 
                 placeholder="Efternamn" 
                 style={styles.textInput} 
-                icon={<AntDesign name="user" size={18} color="#A0A3BD" />} 
+                icon={<AntDesign name="user" size={18} color={theme.icon} />} 
                 onChangeText={setLastName}
                 value={lastName}
             />
@@ -53,7 +55,7 @@ const RegisterInformation = ({ onNext, onCancel }) => {
                 light 
                 placeholder="Födelseår" 
                 style={styles.textInput} 
-                icon={<AntDesign name="calendar" size={18} color="#A0A3BD" />} 
+                icon={<AntDesign name="calendar" size={18} color={theme.icon} />} 
                 onChangeText={setBirthYear}
                 value={birthYear}
             />

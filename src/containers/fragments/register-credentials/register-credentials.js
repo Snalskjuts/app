@@ -1,14 +1,16 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { StyleSheet, Dimensions } from "react-native"
 import { PrimaryButton, TertiaryButton } from "../../../components/buttons"
 import { EmailTextField, PasswordTextField, StandardTextField } from "../../../components/textfields"
 import Logo from "../../../components/logo"
 import { AntDesign } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
+import ThemeContext from "../../../context/theme"
 
 const MINIMUM_PASSWORD_LENGTH = 6
 
 const RegisterCredentials = ({ onRegister, onCancel }) => {
+    const theme = useContext(ThemeContext) 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -40,7 +42,7 @@ const RegisterCredentials = ({ onRegister, onCancel }) => {
                 light 
                 placeholder="E-post" 
                 style={styles.textInput} 
-                icon={<MaterialIcons name="alternate-email" size={18} color="#A0A3BD" />} 
+                icon={<MaterialIcons name="alternate-email" size={18} color={theme.icon} />} 
             />
             <PasswordTextField 
                 onChangeText={setPassword}
@@ -48,7 +50,7 @@ const RegisterCredentials = ({ onRegister, onCancel }) => {
                 light 
                 placeholder="Lösenord" 
                 style={styles.textInput} 
-                icon={<AntDesign name="lock1" size={18} color="#A0A3BD" />} 
+                icon={<AntDesign name="lock1" size={18} color={theme.icon} />} 
             />
             <PasswordTextField 
                 onChangeText={setConfirmPassword}
@@ -56,7 +58,7 @@ const RegisterCredentials = ({ onRegister, onCancel }) => {
                 light 
                 placeholder="Upprepa lösenord" 
                 style={styles.textInput} 
-                icon={<AntDesign name="lock1" size={18} color="#A0A3BD" />} 
+                icon={<AntDesign name="lock1" size={18} color={theme.icon} />} 
             />
             <PrimaryButton light text="Registrera dig" onPress={ validateAndProceed } />
             <TertiaryButton light text="Avbryt" onPress={ onCancel }/>

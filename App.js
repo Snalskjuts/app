@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import 'react-native-gesture-handler'
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import * as Font from "expo-font"
-import { UserProvider } from './src/context/user';
+import { UserProvider } from './src/context/user'
+import { ThemeProvider } from './src/context/theme'
 
 import { Search, Start } from './src/screens'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 export default function App() {
   const [resourcesLoaded, setResourcesLoaded] = useState(false)
@@ -19,6 +20,7 @@ export default function App() {
   const loadFonts = async () => {
     await Font.loadAsync({
       "Poppins": require("./assets/fonts/Poppins-Regular.ttf"),
+      "Poppins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
       "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
       "Poppins-Thin": require("./assets/fonts/Poppins-Thin.ttf"),
       "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
@@ -28,22 +30,24 @@ export default function App() {
 
   return (
       resourcesLoaded ?
-      <UserProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Start">
-            <Stack.Screen 
-              options={{ headerShown: false}}
-              name="Start" 
-              component={ Start } 
-            />
-            <Stack.Screen 
-              options={{ headerShown: false}}
-              name="Search" 
-              component={ Search } 
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </UserProvider>
+      <ThemeProvider>
+        <UserProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Start">
+              <Stack.Screen 
+                options={{ headerShown: false}}
+                name="Start" 
+                component={ Start } 
+              />
+              <Stack.Screen 
+                options={{ headerShown: false}}
+                name="Search" 
+                component={ Search } 
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </UserProvider>
+      </ThemeProvider>
       : null
   )
 }

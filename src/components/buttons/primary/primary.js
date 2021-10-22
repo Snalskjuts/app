@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { Text, StyleSheet } from "react-native"
+import ThemeContext from "../../../context/theme"
 
 const PrimaryButton = ({ onPress, text, style, light }) => {
+    const theme = useContext(ThemeContext)
+    const styles = themedStyles(theme)
     return (
         <TouchableOpacity onPress={ onPress } style={[styles.button, style, light ? styles.light : styles.normal]}>
             <Text style={[styles.text, light ? styles.lightText : styles.normalText]}>{ text }</Text>
@@ -10,7 +13,7 @@ const PrimaryButton = ({ onPress, text, style, light }) => {
     )
 }
 
-const styles = StyleSheet.create({
+const themedStyles = theme => StyleSheet.create({
     button: {
         borderRadius: 50,
         paddingVertical: 20,
@@ -19,10 +22,10 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     light: {
-        backgroundColor: "white",
+        backgroundColor: theme.background,
     }, 
     normal: {
-        backgroundColor: "#E99497",
+        backgroundColor: theme.key,
     },
     text: {
         fontSize: 18,
@@ -30,10 +33,10 @@ const styles = StyleSheet.create({
         lineHeight: 24
     },
     normalText: {
-        color: "white",
+        color: theme.background,
     },
     lightText: {
-        color: "#E99497",
+        color: theme.key,
     }
 })
 

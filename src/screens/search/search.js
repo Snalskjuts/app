@@ -1,18 +1,22 @@
 import React, { useState, useContext } from "react"
 import Protected from "../../hoc/protected"
-import { View, StyleSheet, Text, Dimensions } from "react-native"
+import { View, StyleSheet, Dimensions } from "react-native"
 import MapView from "react-native-maps"
 import { useCurrentLocation } from "../../hooks/location"
 import { SelectRouteType, SearchDriver } from "../../containers/fragments"
 import Dynamo from "../../containers/dynamo"
-import { TertiaryButton } from "../../components/buttons"
-import UserContext from "../../context/user"
+import Drives from "../../containers/fragments/drives"
 
 const Search = () => {
-    const { logOut, isLoggedIn } = useContext(UserContext)
     const [currentLocation] = useCurrentLocation()
+    const drivesFragment = (
+        <Drives />
+    )
     const searchDriverFragment = (
-        <SearchDriver onCancel={() => setDynamoComponent(selectRouteFragment)} />
+        <SearchDriver
+            onSearch={() => setDynamoComponent(drivesFragment)}
+            onCancel={() => setDynamoComponent(selectRouteFragment)}
+        />
     )
     const selectRouteFragment = (<SelectRouteType 
         onSelectDriver={() => setDynamoComponent(searchDriverFragment)}
@@ -25,7 +29,6 @@ const Search = () => {
                 <MapView style={ styles.map } region={currentLocation} />
                 <View style={ styles.overlay }>
                     <Dynamo component={ dynamoComponent } />
-                    <Text style={styles.version}>v1.0.0</Text>
                 </View>
             </View>
         </Protected>
@@ -47,12 +50,6 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height + 24,
         justifyContent: "center",
         alignItems: "center",
-    },
-    version: {
-        fontFamily: "Poppins",
-        position: "absolute",
-        bottom: 42,
-        color: "#B0B0C3"
     }
 })
 

@@ -23,7 +23,7 @@ const Login = ({ onLogin, onRegister }) => {
                 placeholder="Lösenord" 
                 style={styles.textInput} 
                 icon={<AntDesign name="lock1" size={18} color="#A0A3BD" />} 
-                onChangeText={setPassword}    
+                onChangeText={setPassword}
             />
             <PrimaryButton light text="Logga in" onPress={ () => onLogin(email, password) } />
             <TertiaryButton light text="Registrera dig" onPress={ onRegister } />

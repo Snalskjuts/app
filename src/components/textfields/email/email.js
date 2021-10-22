@@ -1,8 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { TextInput, StyleSheet, View } from "react-native"
+import ThemeContext from "../../../context/theme"
 
 const EmailTextField = ({ onChangeText, placeholder, icon, style, light, value }) => {
     const [focused, setFocused] = useState(false)
+    const theme = useContext(ThemeContext)
+    const styles = themedStyles(theme)
     return (
         <View>
             <TextInput
@@ -23,11 +26,9 @@ const EmailTextField = ({ onChangeText, placeholder, icon, style, light, value }
     )
 }
 
-export default EmailTextField
-
-const styles = StyleSheet.create({
+const themedStyles = theme => StyleSheet.create({
     textInput: {
-        backgroundColor: "#EFF0F6",
+        backgroundColor: theme.input,
         paddingHorizontal: 24,
         paddingVertical: 16,
         minWidth: 150,
@@ -36,10 +37,10 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins"
     },
     light: {
-        backgroundColor: "white"
+        backgroundColor: theme.background
     },  
     focused: {
-        backgroundColor: "#F4F5FA",
+        backgroundColor: theme.inputFocused,
     },
     icon: {
         position: "absolute",
@@ -47,3 +48,5 @@ const styles = StyleSheet.create({
         top: 20,
     }
 })
+
+export default EmailTextField
